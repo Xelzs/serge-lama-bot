@@ -1,0 +1,30 @@
+networks:
+  local_db:
+
+services:
+  db:
+    image: mongo:5
+    restart: unless-stopped
+    container_name: db
+    networks:
+      - local_db
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: pdiscord
+      MONGO_INITDB_ROOT_PASSWORD: 'IamTHEpassw0rD'
+
+  pdiscord:
+    build:
+      context: .
+      target: dev
+    stdin_open: true
+    tty: true
+    restart: unless-stopped
+    container_name: pdiscord
+    volumes:
+      - ./:/app/planning-discord
+    networks:
+      - local_db
+    environment:
+      # DISCORD_TOKEN: <your_token>
+      DB_URL: 'mongodb://pdiscord:IamTHEpassw0rD@db:27017'
+      AGENDA_URL: https://hp21.ynov.com/TOU/Telechargements/ical/Edt_SIMONET.ics?version=2021.0.1.4&idICal=8BB7228AA100BC79524191D6266CC7C6&param=643d5b312e2e36325d2666683d3126663d31

@@ -1,0 +1,32 @@
+{
+  "name": "@xelzs/planning-discord",
+  "version": "1.0.0",
+  "description": "A discord bot to periodically fetch .ics calendar & send event to a channel.",
+  "main": "index.js",
+  "scripts": {
+    "watch": "nodemon",
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Xelzs/planning-discord.git"
+  },
+  "author": "Axel SIMONET (Xelzs)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Xelzs/planning-discord/issues"
+  },
+  "homepage": "https://github.com/Xelzs/planning-discord#readme",
+  "devDependencies": {
+    "nodemon": "^2.0.14"
+  },
+  "dependencies": {
+    "@discordjs/builders": "^0.8.2",
+    "@discordjs/rest": "^0.1.0-canary.0",
+    "agenda": "^4.2.1",
+    "discord-api-types": "^0.24.0",
+    "discord.js": "^13.3.1",
+    "dotenv": "^10.0.0",
+    "node-ical": "^0.13.0"
+  }
+}
