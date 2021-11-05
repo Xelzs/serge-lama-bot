@@ -2,7 +2,7 @@ FROM node:16-alpine AS dev
 
 WORKDIR /app/planning-discord
 
-CMD [ "npm", "run", "watch" ]
+ENTRYPOINT [ "npm", "run", "watch" ]
 
 ###########################
 
