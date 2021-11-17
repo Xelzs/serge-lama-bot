@@ -1,0 +1,8 @@
+---
+scope/core:
+  - src/**/*
+scope/ci:
+  - .github/**/*
+scope/docker:
+  - docker-compose.yml
+  - Dockerfile
