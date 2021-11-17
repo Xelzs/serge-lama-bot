@@ -51,18 +51,13 @@ const Planning = (() => {
 
   const formatEvents = async (events) => {
     const now = Date.now();
-    const registeredEvents = await getRegisteredEvents();
+    await agenda.cancel({ name: 'send to discord' });
+    await agenda.cancel({ name: 'fetch url' });
 
     return Object.keys(events)
       .filter((ev) => events.hasOwnProperty(ev) && events[ev].type === 'VEVENT')
       .map((ev) => events[ev])
-      .filter((event) => {
-        return (
-          event.start.getTime() > now &&
-          event.summary.val !== 'Férié' &&
-          !registeredEvents.some((ev) => dayjs(event.start).isSame(dayjs(ev.name)))
-        );
-      })
+      .filter((event) => event.start.getTime() > now && event.summary.val !== 'Férié')
       .map((event) => ({
         name: event.start,
         value: extractDetail(event),

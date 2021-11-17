@@ -20,16 +20,21 @@ DB_URL=<mongodb_connection_string>
 
 ```sh
 npm run start
-
-# For dev only
-npm run watch
 ```
 
-## Run MongoDB locally
+## Run dev environment
 
-For persistence purporse, Serge Lama need a MongoDB instance running.  
-You can run it locally with this example docker command. 
+For persistence purporse, Serge Lama Bot need a MongoDB instance running.  
+You can run it locally with the provided docker-compose example file. 
 
 ```sh
-docker run -it --rm --name db -p 27017:27017 -e MONGO_INITDB_ROOT_USERNAME=slama -e MONGO_INITDB_ROOT_PASSWORD='IamTHEpassw0rD' mongo:5
+# Up dev environment
+docker compose up -d
+
+# Then run app
+npm run watch
+
+# Down dev environment
+docker compose down
+
 ```
