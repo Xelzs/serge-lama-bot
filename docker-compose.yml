@@ -5,7 +5,7 @@ networks:
 
 services:
   db:
-    image: mongo:5
+    image: mongo:4
     ports:
       - 27017:27017
     container_name: db
