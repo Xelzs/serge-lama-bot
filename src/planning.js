@@ -17,7 +17,7 @@ const Planning = (() => {
 
     await agenda.start();
 
-    await agenda.every('0 3 * * *', 'fetch url');
+    await agenda.every('0 */4 * * *', 'fetch url');
     await agenda.now('fetch url');
   };
 
@@ -52,7 +52,6 @@ const Planning = (() => {
   const formatEvents = async (events) => {
     const now = Date.now();
     await agenda.cancel({ name: 'send to discord' });
-    await agenda.cancel({ name: 'fetch url' });
 
     return Object.keys(events)
       .filter((ev) => events.hasOwnProperty(ev) && events[ev].type === 'VEVENT')
@@ -80,7 +79,7 @@ const Planning = (() => {
 
   const setupEvents = async (events) => {
     events.forEach(async (ev) => {
-      const date = dayjs(ev.name).locale('fr').subtract(20, 'minutes').format();
+      const date = dayjs(ev.name).locale('fr').subtract(30, 'minutes').format();
       await agenda.schedule(date, 'send to discord', { event: ev });
     });
   };
