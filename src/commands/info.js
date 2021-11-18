@@ -10,8 +10,7 @@ module.exports = {
       .setTitle('Serge Lama - Discord bot')
       .addField('Version', version)
       .addField('Github', 'https://github.com/Xelzs/serge-lama-bot')
-      .setImage(`https://loremflickr.com/320/240/pig,animal/all?dumbid=${Date.now()}`)
-      .setColor('#28D1E7')
+      .setColor('#12AD12')
       .setFooter(
         'Développé par Axel SIMONET',
         'https://files.axelsimonet.fr/api/public/dl/aUMXn2A_/xelzs/logoA-small.png'
