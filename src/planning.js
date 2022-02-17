@@ -40,14 +40,16 @@ const Planning = (() => {
     if (descSplitted.length > 1) {
       let txt = `${descSplitted[0]}\n${descSplitted[1]}`;
 
-      if (descSplitted[0].split(':')[1].trim() !== 'Ydays') {
-        txt += `\nSalle: ${event.location.val}`;
+      if (descSplitted[0].split(':')[1].trim() !== 'Ydays' && event.location) {
+        txt += `\nSalle : ${event.location.val}`;
         result.location = event.location.val;
       }
 
       result.value = txt;
     } else {
-      result.value = `${event.description.val}\nSalle: ${event.location.val}`;
+      result.value = event.description.val;
+
+      if (event.location) result.value += `\nSalle : ${event.location.val}`;
     }
 
     return result;
@@ -80,10 +82,10 @@ const Planning = (() => {
       .addField(dayjs(name).locale('fr').format('dddd D MMMM - H:m'), value.value, inline)
       .setImage(`https://loremflickr.com/320/240/lama,animal/all?dumbid=${Date.now()}`)
       .setColor('#28D1E7')
-      .setFooter(
-        'Développé par Axel SIMONET',
-        'https://files.axelsimonet.fr/api/public/dl/aUMXn2A_/xelzs/logoA-small.png'
-      );
+      .setFooter({
+        text: 'Développé par Axel SIMONET',
+        iconURL: 'https://files.axelsimonet.fr/api/public/dl/aUMXn2A_/xelzs/logoA-small.png',
+      });
   };
 
   const setupEvents = async (events) => {
@@ -105,7 +107,7 @@ const Planning = (() => {
   };
 
   const next = async () => {
-    const events = await Planning.getRegisteredEvents();
+    const events = await getRegisteredEvents();
     return formatDiscordEmbed(events[0]);
   };
 
