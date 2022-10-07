@@ -1,13 +1,13 @@
-const { Client, Intents, Collection } = require('discord.js');
+const { Client, GatewayIntentBits, Collection } = require('discord.js');
 const env = require('dotenv');
 const { REST } = require('@discordjs/rest');
-const { Routes } = require('discord-api-types/v9');
+const { Routes } = require('discord-api-types/v10');
 const fs = require('fs');
 env.config();
 
 const { Planning } = require('./src/planning');
 
-const client = new Client({ intents: [Intents.FLAGS.GUILDS] });
+const client = new Client({ intents: [GatewayIntentBits.Guilds] });
 
 client.commands = new Collection();
 
@@ -20,18 +20,17 @@ for (const file of commandFiles) {
   commands.push(command.data.toJSON());
 }
 
-const rest = new REST({ version: '9' }).setToken(process.env.DISCORD_TOKEN);
+const rest = new REST({ version: '10' }).setToken(process.env.DISCORD_TOKEN);
 
 client.once('ready', async () => {
-  console.log('Planning bot launched !');
-
-  const channel = client.channels.cache.get(process.env.DISCORD_CHANNEL);
-  await rest.put(Routes.applicationGuildCommands(process.env.DISCORD_CLIENT_ID, process.env.DISCORD_GUILD_ID), {
-    body: commands,
-  });
-
   try {
-    Planning.setup(channel);
+    const channel = client.channels.cache.get(process.env.DISCORD_CHANNEL);
+    await rest.put(Routes.applicationGuildCommands(process.env.DISCORD_CLIENT_ID, process.env.DISCORD_GUILD_ID), {
+      body: commands,
+    });
+
+    await Planning.setup(channel);
+    console.log('Planning bot launched !');
   } catch (error) {
     console.error('Init error', error);
   }
@@ -40,7 +39,7 @@ client.once('ready', async () => {
 client.on('interactionCreate', async (interaction) => {
   if (!interaction.isCommand()) return;
 
-  const command = client.commands.get(interaction.commandName);
+  const command = interaction.client.commands.get(interaction.commandName);
 
   if (!command) return;
 

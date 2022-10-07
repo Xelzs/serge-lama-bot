@@ -4,7 +4,7 @@
   "description": "A discord bot to periodically fetch .ics calendar & send event to a channel.",
   "main": "index.js",
   "scripts": {
-    "watch": "nodemon",
+    "dev": "nodemon",
     "start": "node index.js"
   },
   "repository": {
@@ -18,16 +18,14 @@
   },
   "homepage": "https://github.com/Xelzs/planning-discord#readme",
   "devDependencies": {
-    "nodemon": "^2.0.15"
+    "nodemon": "^2.0.20"
   },
   "dependencies": {
-    "@discordjs/builders": "^0.12.0",
-    "@discordjs/rest": "^0.3.0",
-    "agenda": "^4.2.1",
-    "dayjs": "^1.10.7",
-    "discord-api-types": "^0.27.1",
-    "discord.js": "^13.6.0",
-    "dotenv": "^16.0.0",
-    "node-ical": "^0.14.1"
+    "agenda": "^4.3.0",
+    "dayjs": "^1.11.5",
+    "discord-api-types": "^0.37.12",
+    "discord.js": "^14.5.0",
+    "dotenv": "^16.0.3",
+    "node-ical": "^0.15.1"
   }
 }

@@ -1,5 +1,5 @@
 const Agenda = require('agenda');
-const { MessageEmbed } = require('discord.js');
+const { EmbedBuilder } = require('discord.js');
 const ical = require('node-ical');
 const dayjs = require('dayjs');
 require('dayjs/locale/fr');
@@ -35,6 +35,7 @@ const Planning = (() => {
 
   const extractDetail = (event) => {
     const result = { value: '', location: null };
+    if (!event.description) return result;
     const descSplitted = event.description.val.split('\n');
 
     if (descSplitted.length > 1) {
@@ -64,27 +65,33 @@ const Planning = (() => {
     const now = Date.now();
     await agenda.cancel({ name: 'send to discord' });
 
-    return Object.keys(events)
-      .filter((ev) => events.hasOwnProperty(ev) && events[ev].type === 'VEVENT')
-      .map((ev) => events[ev])
-      .filter((event) => event.start.getTime() > now && event.summary.val !== 'Férié')
-      .map((event) => ({
-        name: event.start,
-        value: extractDetail(event),
-        inline: true,
-      }));
+    try {
+      return Object.keys(events)
+        .filter((ev) => events.hasOwnProperty(ev) && events[ev].type === 'VEVENT')
+        .map((ev) => events[ev])
+        .filter((event) => event.start.getTime() > now && event.summary.val !== 'Férié')
+        .map((event) => {
+          return {
+            name: event.start,
+            value: extractDetail(event),
+            inline: true,
+          };
+        });
+    } catch (error) {
+      console.error('err', error);
+    }
   };
 
   const formatDiscordEmbed = ({ name, value, inline }) => {
-    const embed = new MessageEmbed();
+    const embed = new EmbedBuilder();
     return embed
       .setTitle(value.location ? `Cours - ${value.location} :` : 'Cours :')
-      .addField(dayjs(name).locale('fr').format('dddd D MMMM - H:m'), value.value, inline)
+      .addFields({ name: dayjs(name).locale('fr').format('dddd D MMMM - H:m'), value: value.value, inline })
       .setImage(`https://loremflickr.com/320/240/lama,animal/all?dumbid=${Date.now()}`)
       .setColor('#28D1E7')
       .setFooter({
         text: 'Développé par Axel SIMONET',
-        iconURL: 'https://files.axelsimonet.fr/api/public/dl/aUMXn2A_/xelzs/logoA-small.png',
+        iconURL: 'https://avatars.githubusercontent.com/u/32241342?v=4',
       });
   };
 
@@ -97,6 +104,7 @@ const Planning = (() => {
 
   const sendToDiscord = async (job) => {
     const { event } = job.attrs.data;
+    console.log(event);
     const embed = formatDiscordEmbed(event);
 
     channel.send({ embeds: [embed] });
