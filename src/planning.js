@@ -29,8 +29,8 @@ const Planning = (() => {
   const fetchURL = async () => {
     const webEvents = await ical.async.fromURL(agendaUrl);
     const events = await formatEvents(webEvents);
+    await setupEvents(events);
     console.debug(`Got ${events.length} new events`);
-    setupEvents(events);
   };
 
   const extractDetail = (event) => {
@@ -104,7 +104,6 @@ const Planning = (() => {
 
   const sendToDiscord = async (job) => {
     const { event } = job.attrs.data;
-    console.log(event);
     const embed = formatDiscordEmbed(event);
 
     channel.send({ embeds: [embed] });
