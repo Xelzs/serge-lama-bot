@@ -116,6 +116,9 @@ const Planning = (() => {
     console.log('SEND TO DISCORD', event);
     const embed = formatDiscordEmbed(event);
 
+    // test
+    channel.send('test');
+
     await channel.send({ embeds: [embed] });
   };
 

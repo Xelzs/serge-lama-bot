@@ -29,6 +29,8 @@ client.once('ready', async () => {
       body: commands,
     });
 
+    console.log(channel);
+
     await Planning.setup(channel);
     console.log('Planning bot launched !');
   } catch (error) {
