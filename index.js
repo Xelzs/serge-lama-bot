@@ -25,11 +25,11 @@ const rest = new REST({ version: '10' }).setToken(process.env.DISCORD_TOKEN);
 client.once('ready', async () => {
   try {
     const channel = client.channels.cache.get(process.env.DISCORD_CHANNEL);
+    if (!channel) throw new Error('unable to get channel');
+
     await rest.put(Routes.applicationGuildCommands(process.env.DISCORD_CLIENT_ID, process.env.DISCORD_GUILD_ID), {
       body: commands,
     });
-
-    console.log(channel);
 
     await Planning.setup(channel);
     console.log('Planning bot launched !');

@@ -1,6 +1,6 @@
 {
   "name": "@xelzs/planning-discord",
-  "version": "1.4.2",
+  "version": "1.4.4",
   "description": "A discord bot to periodically fetch .ics calendar & send event to a channel.",
   "main": "index.js",
   "scripts": {
