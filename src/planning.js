@@ -96,17 +96,27 @@ const Planning = (() => {
   };
 
   const setupEvents = async (events) => {
-    events.forEach(async (ev) => {
-      const date = dayjs(ev.name).locale('fr').subtract(30, 'minutes').format();
-      await agenda.schedule(date, 'send to discord', { event: ev });
+    await Promise.all(
+      events.map(async (ev) => {
+        const date = dayjs(ev.name).locale('fr').subtract(30, 'minutes').toDate();
+        await agenda.schedule(date, 'send to discord', { event: ev });
+      })
+    );
+
+    console.log('NEXT JOB', {
+      event: events[0],
+      date: dayjs(events[0].name).locale('fr').subtract(30, 'minutes').toDate(),
     });
+    await agenda.now('send to discord', { event: events[0] });
   };
 
   const sendToDiscord = async (job) => {
     const { event } = job.attrs.data;
+
+    console.log('SEND TO DISCORD', event);
     const embed = formatDiscordEmbed(event);
 
-    channel.send({ embeds: [embed] });
+    await channel.send({ embeds: [embed] });
   };
 
   const refresh = async () => {
