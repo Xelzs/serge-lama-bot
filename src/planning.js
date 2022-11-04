@@ -41,7 +41,7 @@ const Planning = (() => {
     if (descSplitted.length > 1) {
       let txt = `${descSplitted[0]}\n${descSplitted[1]}`;
 
-      if (descSplitted[0].split(':')[1].trim() !== 'Ydays' && event.location) {
+      if (event.location) {
         txt += `\nSalle : ${event.location.val}`;
         result.location = event.location.val;
       }
@@ -69,7 +69,10 @@ const Planning = (() => {
       return Object.keys(events)
         .filter((ev) => events.hasOwnProperty(ev) && events[ev].type === 'VEVENT')
         .map((ev) => events[ev])
-        .filter((event) => event.start.getTime() > now && event.summary.val !== 'Férié')
+        .filter(
+          (event) =>
+            event.start.getTime() > now && event.summary.val !== 'Férié' && !event.summary.val.includes('Ydays')
+        )
         .map((event) => {
           return {
             name: event.start,
@@ -117,7 +120,7 @@ const Planning = (() => {
 
   const next = async () => {
     const events = await getRegisteredEvents();
-    return formatDiscordEmbed(events[0]);
+    return formatDiscordEmbed(events[1]);
   };
 
   return {

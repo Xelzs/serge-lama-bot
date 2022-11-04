@@ -1,6 +1,6 @@
 {
   "name": "@xelzs/planning-discord",
-  "version": "1.4.4",
+  "version": "1.5.0",
   "description": "A discord bot to periodically fetch .ics calendar & send event to a channel.",
   "main": "index.js",
   "scripts": {
@@ -22,8 +22,8 @@
   },
   "dependencies": {
     "agenda": "^4.4.0",
-    "dayjs": "^1.11.5",
-    "discord-api-types": "^0.37.14",
+    "dayjs": "^1.11.6",
+    "discord-api-types": "^0.37.16",
     "discord.js": "^14.6.0",
     "dotenv": "^16.0.3",
     "node-ical": "^0.15.2"
