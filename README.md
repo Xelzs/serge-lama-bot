@@ -32,7 +32,7 @@ You can run it locally with the provided docker-compose example file.
 docker compose up -d
 
 # Then run app
-npm run watch
+npm run dev
 
 # Down dev environment
 docker compose down
